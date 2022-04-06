@@ -6,50 +6,75 @@
 /*   By: manavarr <manavarr@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2022/04/04 20:31:53 by manavarr          #+#    #+#             */
-/*   Updated: 2022/04/04 20:39:18 by manavarr         ###   ########.fr       */
+/*   Updated: 2022/04/06 13:30:26 by manavarr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <unistd.h>
 
-void	ft_putchar(int a, char **b)
+void	ft_putchar(char c)
+{
+	write(1, &c, 1);
+}
+
+void	ft_putstr(char *str)
 {
 	int	i;
-	int	x;
 
-	x = 1;
-	while (x <= a)
+	i = 0;
+	while (str[i] != '\0')
 	{
-		i = 0;
-		while (b[x][i] != '\0')
-		{
-			write(1, &b[x][i], 1);
-			i++;
-		}
-		write(1, "\n", 1);
-		x++;
+		ft_putchar(str[i++]);
 	}
+}
+
+int	ft_strcmp(char *s1, char *s2)
+{
+	int	c;
+	int	ret;
+
+	c = 0;
+	ret = 0;
+	while ((s1[c] != '\0' || s2[c] != '\0') && (s1[c] == s2[c]))
+	{
+		c++;
+	}
+	ret = s1[c] - s2[c];
+	return (ret);
+}
+
+void	ft_swap(char **a, char **b)
+{
+	char	*temp;
+
+	temp = *a;
+	*a = *b;
+	*b = temp;
 }
 
 int	main(int a, char **b)
 {
-	int	temp;
-	int	n;
+	int	i;
+	int	j;
 
-	n = 0;
-	a--;
-	while (n < a)
+	j = 0;
+	while (j < a - 1)
 	{
-		if (b[n][0] > b[n + 1][0])
+		i = 1;
+		while (i < a - 1)
 		{
-			temp = b[n][0];
-			b[n][0] = b[n + 1][0];
-			b[n + 1][0] = temp;
-			n = 0;
-		}
-		else
-			n++;
+			if (ft_strcmp(b[i], b[i + 1]) > 0)
+				ft_swap(&b[i], &b[i + 1]);
+			i++;
+		}	
+		j++;
 	}
-	ft_putchar(a, b);
+	i = 0;
+	while (i < a)
+	{
+		ft_putstr(b[i]);
+		ft_putchar('\n');
+		i++;
+	}
 	return (0);
 }
